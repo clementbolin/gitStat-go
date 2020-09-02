@@ -1,8 +1,11 @@
 package main
+
 import (
 	"fmt"
 	"flag"
 	"os"
+
+	"github.com/ClementBolin/gitStat-go/cmd/scan"
 )
 
 // HELP : array of help message
@@ -21,16 +24,20 @@ func help() {
 func main() {
 	var folderFlag string
 	var emailFlag string
+	var debugFlag string
 
 	// Check flag
+	flag.StringVar(&debugFlag, "debug", "false", HELP[0]);
 	flag.StringVar(&folderFlag, "add", ".", HELP[0]);
 	flag.StringVar(&emailFlag, "email", "example@email.com", HELP[1])
 	flag.Parse()
 
-	if (emailFlag == "example@email.com") {
-		help()
-		os.Exit(0)
+	if (debugFlag == "false") {
+		if (emailFlag == "example@email.com") {
+			help()
+			os.Exit(0)
+		}
 	}
-	fmt.Println("email flag value :", emailFlag);
+	scan.ScanFolder(folderFlag)
 }
 	
