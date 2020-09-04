@@ -7,6 +7,7 @@ import (
 	"gopkg.in/src-d/go-git.v4/plumbing/object"
 )
 
+// CountCommit : return number of Commit that <email> create
 func CountCommit(path string, counter *int, email string) {
 	fmt.Println("path", path)
 	// instantiate a git repo object from path

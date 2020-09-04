@@ -38,6 +38,9 @@ func main() {
 			os.Exit(0)
 		}
 	}
-	scan.ScanFolder(folderFlag, emailFlag)
+	var gitScan scan.GitScan
+	gitScan.Init(emailFlag)
+	scan.ScanFolder(folderFlag, emailFlag, &gitScan)
+	fmt.Println("commit number : ", gitScan.GetCounter())
 }
 	
