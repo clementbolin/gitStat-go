@@ -9,38 +9,53 @@ import (
 )
 
 // HELP : array of help message
-var HELP = [2]string {
-	"<foler path>\tAdd folder path to scan for Git repository",
-	"<email@email.com>\tEmail to scan in Git commit",
+var HELP = [3]string {
+	"Add folder path to scan for Git repository",
+	"Email to scan in Git commit",
+	"scans all folders recursively and adds up all commits",
 }
 
 func help() {
 	fmt.Println(`gitStat-go help:
 
-   --add	path folder to scan for Git repository, if not specified, scan current repository.
-   --email	email to scan in Git commit, required parameter`)
+   -add	path folder to scan for Git repository, if not specified, scan current repository.
+   -email	email to scan in Git commit, required parameter
+   -recursive	scans all folders recursively and adds up all commits`)
 }
 
 func main() {
 	var folderFlag string
 	var emailFlag string
-	var debugFlag *bool
+	var recursive *bool
 
 	// Check flag
-	debugFlag = flag.Bool("debug", false, HELP[0]);
+	recursive = flag.Bool("recursive", false, HELP[2]);
 	flag.StringVar(&folderFlag, "add", ".", HELP[0]);
 	flag.StringVar(&emailFlag, "email", "example@email.com", HELP[1])
 	flag.Parse()
 
-	if (*debugFlag == false) {
-		if (emailFlag == "example@email.com") {
-			help()
-			os.Exit(0)
-		}
+	if (emailFlag == "example@email.com") {
+		help()
+		os.Exit(0)
 	}
 	var gitScan scan.GitScan
 	gitScan.Init(emailFlag)
-	scan.ScanFolder(folderFlag, emailFlag, &gitScan)
-	fmt.Println("commit number : ", gitScan.GetCounter())
+	if (*recursive) {
+		scan.ScanFolder(folderFlag, emailFlag, &gitScan)
+		fmt.Println("commit number : ", gitScan.GetCounter())
+		if (gitScan.GetCounter() <= 0) {
+			fmt.Printf("none commit find for %s\n\n", emailFlag)
+			help()
+		}
+		os.Exit(0)
+	} else {
+		scan.ScanUniqueFolder(folderFlag, emailFlag, &gitScan)
+		fmt.Println("commit number : ", gitScan.GetCounter())
+		if (gitScan.GetCounter() <= 0) {
+			fmt.Printf("none commit find for %s\n\n", emailFlag)
+			help()
+		}
+		os.Exit(0)
+	}
 }
 	

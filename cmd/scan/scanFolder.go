@@ -7,7 +7,7 @@ import (
 	error "github.com/ClementBolin/gitStat-go/pkg/err"
 )
 
-// ScanFolder : scan folder for find .git Path is folder to scan
+// ScanFolder : scan recursive folder for find .git Path is folder to scan
 func ScanFolder(path string, email string, gitScan *GitScan) {
 	// Read File
 	file, err := ioutil.ReadDir(path)
@@ -22,6 +22,20 @@ func ScanFolder(path string, email string, gitScan *GitScan) {
 		newPath = path + "/" + f.Name()
 		if fNewPath, err := os.Stat(newPath); err == nil && fNewPath.IsDir() {
 			ScanFolder(newPath, email, gitScan)
+		}
+	}
+}
+
+// ScanUniqueFolder : Scan folder not recursive
+func ScanUniqueFolder(path string, email string, gitScan *GitScan) {
+	// Read File
+	file, err := ioutil.ReadDir(path)
+	error.MangeErrExit(err)
+
+
+	for _, f := range file {
+		if (f.Name() == ".git") {
+			gitScan.GitScanCommit(path + "/" + f.Name())
 		}
 	}
 }
