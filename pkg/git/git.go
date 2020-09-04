@@ -7,7 +7,8 @@ import (
 	"gopkg.in/src-d/go-git.v4/plumbing/object"
 )
 
-func testRepo(path string) {
+func CountCommit(path string, counter *int, email string) {
+	fmt.Println("path", path)
 	// instantiate a git repo object from path
 	repo, err := git.PlainOpen(path)
 	if err != nil {
@@ -25,7 +26,10 @@ func testRepo(path string) {
 	}
 	// iterate the commits
 	err = iterator.ForEach(func(c *object.Commit) error {
-		fmt.Println(c);
+		fmt.Println(c.Author);
+		if (string(c.Author.Email) == email) {
+			*counter++
+		}
 		return nil
 	})
 	if err != nil {
