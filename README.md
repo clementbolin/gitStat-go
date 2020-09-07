@@ -17,17 +17,20 @@ different flag function. the ```email``` flag is required
 
 ### Install
 
+you must have the Golang compiler to compile this project.
+If this is not the case you can go [here](https://golang.org) to install it.
+
 first step is to clone repository
 
     git clone https://github.com/ClementBolin/gitStat-go
     cd gitStat-go
 
-after clone repository you can start install.sh
+after clone repository you can start ```install.sh```
 
     chmod +x install.sh
     ./install.sh
 
-if install.sh failed you can follow the following instructions
+if ```install.sh``` failed you can follow the following instructions
 
 #### Mac OS and Linux
 
