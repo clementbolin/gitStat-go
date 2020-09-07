@@ -38,6 +38,7 @@ func createTable(arrayPath []string, email string) map[int]int {
 	return commitsTable
 }
 
+// print commits in last 6months
 func printCommitsStat(commits map[int]int) {
 	key := sortMapIntoSlice(commits)
 	cols := buildCol(key, commits)
