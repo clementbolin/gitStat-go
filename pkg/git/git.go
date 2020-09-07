@@ -60,7 +60,7 @@ func CalcOffset() int {
 }
 
 // CountCommit : return number of Commit that <email> create
-func CountCommit(path string, commits map[int]int, email string) map[int]int {
+func CountCommit(path string, commits map[int]int, email string, etat *bool) map[int]int {
 	// instantiate a git repo object from path
 	repo, err := git.PlainOpen(path)
 	if err != nil {
@@ -83,6 +83,7 @@ func CountCommit(path string, commits map[int]int, email string) map[int]int {
 		if (string(c.Author.Email) == email) {
 			if daysAgo != outOfRange {
 				commits[daysAgo]++
+				*etat = true
 			}
 		}
 		return nil

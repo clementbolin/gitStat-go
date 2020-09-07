@@ -3,6 +3,7 @@ package ui
 import (
 	"fmt"
 	"sort"
+	"os"
 	"time"
 
 	"github.com/ClementBolin/gitStat-go/pkg/git"
@@ -17,12 +18,22 @@ type column []int
 
 func createTable(arrayPath []string, email string) map[int]int {
 	commitsTable := make(map[int]int, daySixMonths)
+	var etat bool = false
 
 	for i := daySixMonths; i > 0; i-- {
 		commitsTable[i] = 0
 	}
 	for _, e := range arrayPath {
-		git.CountCommit(e, commitsTable, email)
+		git.CountCommit(e, commitsTable, email, &etat)
+	}
+	if (etat == false) {
+		fmt.Println("We can't find commit for this email", email)
+		fmt.Println(`gitStat-go help:
+
+		-add		path folder to scan for Git repository, if not specified, scan current repository.
+		-email	email to scan in Git commit, required parameter
+		-r	scans all folders recursively and adds up all commits`)
+		os.Exit(0)
 	}
 	return commitsTable
 }
