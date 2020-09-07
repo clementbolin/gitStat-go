@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/ClementBolin/gitStat-go/cmd/scan"
+	"github.com/ClementBolin/gitStat-go/cmd/ui"
 )
 
 // HELP : array of help message
@@ -23,6 +24,23 @@ func help() {
    -recursive	scans all folders recursively and adds up all commits`)
 }
 
+// Deleate char at indx
+func delChar(s []rune, index int) []rune {
+    return append(s[0:index], s[index+1:]...)
+}
+
+// clear path string
+func clearPath(path string) string {
+	for i := 0; i != len(path)-2; i++ {
+		c := string(path[i])
+		c1 := string(path[i+1])
+		if (c == "/" && c1 == "/") {
+			path = string(delChar([]rune(path), i))
+		}
+	}
+	return path
+}
+
 func main() {
 	var folderFlag string
 	var emailFlag string
@@ -38,23 +56,28 @@ func main() {
 		help()
 		os.Exit(0)
 	}
+
 	var gitScan scan.GitScan
 	gitScan.Init(emailFlag)
 	if (*recursive) {
-		scan.ScanFolder(folderFlag, emailFlag, &gitScan)
-		fmt.Println("commit number : ", gitScan.GetCounter())
-		if (gitScan.GetCounter() <= 0) {
+		arrayPath := scan.CreatePathFolder(folderFlag, emailFlag)
+		if (len(arrayPath) <= 0) {
 			fmt.Printf("none commit find for %s\n\n", emailFlag)
 			help()
 		}
+		for i, e := range arrayPath {
+			arrayPath[i] = clearPath(e) 
+			fmt.Println(arrayPath[i])
+		}
+		// ui.DisplayUI(gitScan)
 		os.Exit(0)
 	} else {
-		scan.ScanUniqueFolder(folderFlag, emailFlag, &gitScan)
-		fmt.Println("commit number : ", gitScan.GetCounter())
-		if (gitScan.GetCounter() <= 0) {
-			fmt.Printf("none commit find for %s\n\n", emailFlag)
+		path := scan.ScanUniqueFolder(folderFlag, emailFlag)
+		if (path == "") {
 			help()
 		}
+		path = clearPath(path)
+		ui.DisplayUI(gitScan)
 		os.Exit(0)
 	}
 }
