@@ -13,7 +13,8 @@ const (
 	weekSixMonths = 26
 )
 
-func getActualDate(t time.Time) time.Time {
+// GetActualDate : get actual day
+func GetActualDate(t time.Time) time.Time {
 	year, month, day := t.Date();
 	actualDay := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 	return actualDay
@@ -22,7 +23,7 @@ func getActualDate(t time.Time) time.Time {
 // countDaysSinceDate counts how many days passed since the passed `date`
 func countDaysSinceDate(date time.Time) int {
 	days := 0
-	now := getActualDate(time.Now())
+	now := GetActualDate(time.Now())
 	for date.Before(now) {
 		date = date.Add(time.Hour * 24)
 		days++
@@ -33,7 +34,8 @@ func countDaysSinceDate(date time.Time) int {
 	return days
 }
 
-func calcOffset() int {
+// CalcOffset :  calcul offset
+func CalcOffset() int {
 	var offset int
 	weekday := time.Now().Weekday()
 
@@ -75,7 +77,7 @@ func CountCommit(path string, commits map[int]int, email string) map[int]int {
 		panic(err)
 	}
 	// iterate the commits
-	offset := calcOffset()
+	offset := CalcOffset()
 	err = iterator.ForEach(func(c *object.Commit) error {
 		daysAgo := countDaysSinceDate(c.Author.When) + offset
 		if (string(c.Author.Email) == email) {

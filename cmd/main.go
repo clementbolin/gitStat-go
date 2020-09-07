@@ -62,17 +62,16 @@ func main() {
 		if (len(arrayPath) <= 0) {
 			fmt.Printf("none commit find for %s\n\n", emailFlag)
 			help()
-		}
-		for i, e := range arrayPath {
-			arrayPath[i] = clearPath(e) 
-			fmt.Println(arrayPath[i])
+			os.Exit(0)
 		}
 		ui.DisplayUI(arrayPath, emailFlag)
 		os.Exit(0)
 	} else {
 		path := scan.ScanUniqueFolder(folderFlag, emailFlag)
 		if (path[0] == "") {
+			fmt.Printf("none commit find for %s\n\n", emailFlag)
 			help()
+			os.Exit(0)
 		}
 		path[0] = clearPath(path[0])
 		ui.DisplayUI(path, emailFlag)
