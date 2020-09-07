@@ -57,8 +57,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	var gitScan scan.GitScan
-	gitScan.Init(emailFlag)
 	if (*recursive) {
 		arrayPath := scan.CreatePathFolder(folderFlag, emailFlag)
 		if (len(arrayPath) <= 0) {
@@ -69,15 +67,15 @@ func main() {
 			arrayPath[i] = clearPath(e) 
 			fmt.Println(arrayPath[i])
 		}
-		// ui.DisplayUI(gitScan)
+		ui.DisplayUI(arrayPath, emailFlag)
 		os.Exit(0)
 	} else {
 		path := scan.ScanUniqueFolder(folderFlag, emailFlag)
-		if (path == "") {
+		if (path[0] == "") {
 			help()
 		}
-		path = clearPath(path)
-		ui.DisplayUI(gitScan)
+		path[0] = clearPath(path[0])
+		ui.DisplayUI(path, emailFlag)
 		os.Exit(0)
 	}
 }

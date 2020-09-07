@@ -59,17 +59,17 @@ func CreatePathFolder(path string, email string) []string {
 }
 
 // ScanUniqueFolder : Scan folder not recursive
-func ScanUniqueFolder(path string, email string) string {
+func ScanUniqueFolder(path string, email string) []string {
 	// Read File
 	file, err := ioutil.ReadDir(path)
 	error.MangeErrExit(err)
 
 	// String path
-	var pathReturn string
+	pathReturn := make([]string, 1)
 
 	for _, f := range file {
 		if (f.Name() == ".git") {
-			pathReturn = path + "/" + f.Name()
+			pathReturn[0] = path + "/" + f.Name()
 		}
 	}
 	return pathReturn
