@@ -1,3 +1,6 @@
+
+![](./assets/git.png)
+
 # GitStat
 
 ## Introduction
