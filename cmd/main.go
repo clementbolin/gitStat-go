@@ -11,7 +11,7 @@ import (
 
 // HELP : array of help message
 var HELP = [3]string {
-	"Add folder path to scan for Git repository",
+	"Add folder path to scan for Git repository, if not specified, scan current repository",
 	"Email to scan in Git commit",
 	"scans all folders recursively and adds up all commits",
 }
@@ -19,9 +19,9 @@ var HELP = [3]string {
 func help() {
 	fmt.Println(`gitStat-go help:
 
-   -add	path folder to scan for Git repository, if not specified, scan current repository.
+   -add		path folder to scan for Git repository, if not specified, scan current repository.
    -email	email to scan in Git commit, required parameter
-   -recursive	scans all folders recursively and adds up all commits`)
+   -r	scans all folders recursively and adds up all commits`)
 }
 
 // Deleate char at indx
@@ -47,7 +47,7 @@ func main() {
 	var recursive *bool
 
 	// Check flag
-	recursive = flag.Bool("recursive", false, HELP[2]);
+	recursive = flag.Bool("r", false, HELP[2]);
 	flag.StringVar(&folderFlag, "add", ".", HELP[0]);
 	flag.StringVar(&emailFlag, "email", "example@email.com", HELP[1])
 	flag.Parse()
@@ -63,6 +63,9 @@ func main() {
 			fmt.Printf("none commit find for %s\n\n", emailFlag)
 			help()
 			os.Exit(0)
+		}
+		for i, e := range arrayPath {
+			arrayPath[i] = clearPath(e) 
 		}
 		ui.DisplayUI(arrayPath, emailFlag)
 		os.Exit(0)

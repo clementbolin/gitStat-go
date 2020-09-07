@@ -6,6 +6,12 @@ The goal of this project is to scan your git projects and display as what you ha
 
 ## How to Use
 
+different flag function. the ```email``` flag is required
+
+![](./assets/help.png)
+
+![Alt Text](./assets/example.gif)
+
 ### Install
 
 first step is to clone repository
