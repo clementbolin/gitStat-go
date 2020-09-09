@@ -6,6 +6,7 @@
 ## Introduction
 
 The goal of this project is to scan your git projects and display as what you have on Github/Gitlab the frequency of your commits in your terminal.
+This project is based on this topic : [TOPIC](https://flaviocopes.com/go-git-contributions/)
 
 ## How to Use
 
