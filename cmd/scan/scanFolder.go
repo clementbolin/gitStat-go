@@ -39,6 +39,9 @@ func counterPathFolder(path string, email string, counter *int) {
 		if (f.Name() == ".git") {
 			*counter++
 		}
+		if (f.Name() == "vendor" || f.Name() == "node_modules") {
+			continue
+		}
 		newPath = path + "/" + f.Name()
 		if fNewPath, err := os.Stat(newPath); err == nil && fNewPath.IsDir() {
 			counterPathFolder(newPath, email, counter)
