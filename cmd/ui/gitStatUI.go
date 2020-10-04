@@ -90,6 +90,7 @@ func printCells(cols map[int]column) {
 			if col, ok := cols[i]; ok {
 				//special case today
 				if i == 0 && j == git.CalcOffset()-1 {
+					j--
 					printCell(col[j], true)
 					continue
 				} else {
